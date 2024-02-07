@@ -1,7 +1,10 @@
 'use client'
 
+import { login } from '@/redux/features/userSlice'
+import { AppDispatch } from '@/redux/store'
 import Image from 'next/image'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 
 type Inputs = {
   username: string
@@ -9,6 +12,7 @@ type Inputs = {
 }
 
 export default function Login() {
+  const dispatch = useDispatch<AppDispatch>()
   const {
     register,
     handleSubmit,
@@ -17,6 +21,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = data => {
     console.log(data)
+    dispatch(login(data))
   }
 
   return (
@@ -47,7 +52,9 @@ export default function Login() {
                   type="text"
                 />
                 {errors.username && (
-                  <p className="text-red-600 mt-0 mb-2">{errors.username?.message}</p>
+                  <p className="text-red-600 mt-0 mb-2">
+                    {errors.username?.message}
+                  </p>
                 )}
                 <input
                   {...register('password')}
@@ -56,7 +63,9 @@ export default function Login() {
                   type="password"
                 />
                 {errors.password && (
-                  <p className="text-red-600 mt-0 mb-2">{errors.password?.message}</p>
+                  <p className="text-red-600 mt-0 mb-2">
+                    {errors.password?.message}
+                  </p>
                 )}
                 <button className="text-sm text-center bg-blue-300 text-white py-1 rounded font-medium">
                   Login{' '}
@@ -77,7 +86,12 @@ export default function Login() {
               <span className="text-sm text-gray-700">
                 Don&#8217;t have an account?
               </span>
-              <a href='/register' className="text-blue-500 text-sm font-semibold"> Sign up</a>
+              <a
+                href="/register"
+                className="text-blue-500 text-sm font-semibold">
+                {' '}
+                Sign up
+              </a>
             </div>
           </div>
         </div>
